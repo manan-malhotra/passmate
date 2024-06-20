@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
       { status: 401 }
     );
   const updatedKey = key.toLowerCase();
-  const cryptr = new Cryptr(updatedKey);
+  const cryptr = new Cryptr(updatedKey + process.env.CRYPTR_KEY);
   const enryptedUser = cryptr.encrypt(username);
   const encryptedPass = cryptr.encrypt(password);
   const alreadyExist = await Password.findOne({ user, key: updatedKey });
