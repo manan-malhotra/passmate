@@ -1,6 +1,9 @@
+"use client";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
 export default function Home() {
+  const { theme, setTheme } = useTheme();
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
@@ -38,7 +41,13 @@ export default function Home() {
           priority
         />
       </div>
-
+      <div>
+        The current theme is: {theme}
+        <br />
+        <button onClick={() => setTheme("light")}>Light Mode</button>
+        <br />
+        <button onClick={() => setTheme("dark")}>Dark Mode</button>
+      </div>
       <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
         <a
           href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
