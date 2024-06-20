@@ -3,6 +3,7 @@ import User from "@/models/userModel";
 import dbconnect from "@/db/dbconnect";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import Password from "@/models/passwordModel";
+import Cryptr from "cryptr";
 dbconnect();
 export async function POST(request: NextRequest) {
   const { key, username, password } = await request.json();
@@ -31,6 +32,9 @@ export async function POST(request: NextRequest) {
       { status: 401 }
     );
   const updatedKey = key.toLowerCase();
+  const cryptr = new Cryptr(updatedKey);
+  const enryptedUser = cryptr.encrypt(username);
+  const encryptedPass = cryptr.encrypt(password);
   const alreadyExist = await Password.findOne({ user, key: updatedKey });
   if (alreadyExist) {
     return NextResponse.json(
@@ -39,8 +43,8 @@ export async function POST(request: NextRequest) {
     );
   }
   const newStore = await Password.create({
-    username,
-    password,
+    username: enryptedUser,
+    password: encryptedPass,
     user,
     key: updatedKey,
   });
