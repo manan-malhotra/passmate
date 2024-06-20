@@ -18,6 +18,14 @@ export async function POST(request: NextRequest) {
       { status: 400 }
     );
   }
+
+  const existingUser = await User.findOne({ username });
+  if (existingUser) {
+    return NextResponse.json(
+      { message: "User already exists" },
+      { status: 403 }
+    );
+  }
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
   const user = await User.create({ username, password: hashedPassword });
