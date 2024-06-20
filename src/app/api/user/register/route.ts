@@ -7,11 +7,9 @@ export async function POST(request: NextRequest) {
   const { username, password } = await request.json();
   if (
     username == null ||
-    username == "" ||
     username.trim() == "" ||
     password == null ||
-    password.trim() == "" ||
-    password == ""
+    password.trim() == ""
   ) {
     return NextResponse.json(
       { message: "Username or password cannot be empty" },
