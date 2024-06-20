@@ -5,32 +5,51 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 dbconnect();
 export async function POST(request: NextRequest) {
-  const { username, password } = await request.json();
-  const user = await User.findOne({ username });
-  if (!user) {
-    return NextResponse.json({ message: "User not found" }, { status: 404 });
-  }
-  const passwordCheck = await bcrypt.compare(password, user.password);
-
-  if (!passwordCheck) {
-    return NextResponse.json({ message: "Wrong password" }, { status: 401 });
-  }
-
-  const token = jwt.sign(
-    { userID: user.id, username },
-    process.env.JWT_SECRET!,
-    {
-      expiresIn: "10000d",
+  try {
+    const { username, password } = await request.json();
+    if (
+      username == null ||
+      username.trim() == "" ||
+      password == null ||
+      password.trim() == ""
+    ) {
+      return NextResponse.json(
+        { message: "Username or password cannot be empty" },
+        { status: 400 }
+      );
     }
-  );
-  const response = NextResponse.json(
-    { message: "Login Success" },
-    { status: 200 }
-  );
-  response.cookies.set({
-    name: "token",
-    value: token,
-    httpOnly: true,
-  });
-  return response;
+    const user = await User.findOne({ username });
+    if (!user) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
+    const passwordCheck = await bcrypt.compare(password, user.password);
+
+    if (!passwordCheck) {
+      return NextResponse.json({ message: "Wrong password" }, { status: 401 });
+    }
+
+    const token = jwt.sign(
+      { userID: user.id, username },
+      process.env.JWT_SECRET!,
+      {
+        expiresIn: "10000d",
+      }
+    );
+    const response = NextResponse.json(
+      { message: "Login Success" },
+      { status: 200 }
+    );
+    response.cookies.set({
+      name: "token",
+      value: token,
+      httpOnly: true,
+    });
+    return response;
+  } catch (error: any) {
+    console.log(error);
+    return NextResponse.json(
+      { message: "Internal Server Error!" },
+      { status: 500 }
+    );
+  }
 }
