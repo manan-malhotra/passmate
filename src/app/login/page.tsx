@@ -28,7 +28,7 @@ export default function Home() {
     <div className="h-screen">
       <Topbar />
       <div className="flex flex-col h-5/6 items-center justify-center py-2">
-        <div className="shadow-2xl bg-primary md:h-4/5 h-5/6 md:w-2/3 w-5/6 rounded-2xl mt-auto mb-auto p-16">
+        <div className="shadow-2xl bg-primary md:h-4/5 h-5/6 lg:w-3/6 md:w-4/6 w-5/6 rounded-2xl mt-auto mb-auto p-16">
           <p className=" text-center text-2xl tracking-wide  ">
             Login into your account!
           </p>
