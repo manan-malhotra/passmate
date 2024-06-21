@@ -5,15 +5,15 @@
 :root {
   --foreground-rgb: 10, 10, 10;
   --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-  --primary: rgb(137, 129, 235);
+  --background-end-rgb: 214, 219, 220;
+  --primary: 214, 219, 221;
 }
 
 [data-theme="dark"] {
   --foreground-rgb: 255, 255, 255;
   --background-start-rgb: 38, 38, 38;
   --background-end-rgb: 23, 23, 23;
-  --primary: rgb(37, 99, 235);
+  --primary: 30, 30, 30;
 }
 
 body {
@@ -26,7 +26,8 @@ body {
     rgb(var(--background-start-rgb));
 }
 .bg-primary {
-  background-color: var(--primary);
+  background: linear-gradient(to bottom, transparent, rgb(var(--primary)))
+    rgb(var(--background-start-rgb));
 }
 @layer utilities {
   .text-balance {
