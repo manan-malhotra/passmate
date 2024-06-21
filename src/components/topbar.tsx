@@ -8,8 +8,8 @@ export default function Topbar() {
     <div className="flex justify-between p-5 ">
       <div className="w-full">
         <p
-          className="ml-auto mr-auto text-center justify-center  mt-1 tracking-widest"
-          onClick={toggleTheme}
+          className="ml-auto mr-auto text-center justify-center text-2xl  mt-1 tracking-widest"
+          onClick={() => {}}
         >
           <span className="font-bold">PASS</span>
           <span className="font-medium">MATE</span>
