@@ -6,9 +6,9 @@ export default function Home() {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const login = async () => {
+  const register = async () => {
     try {
-      const res = await fetch("/api/user/login", {
+      const res = await fetch("/api/user/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -32,7 +32,7 @@ export default function Home() {
       <div className="flex flex-col h-5/6 items-center justify-center py-2">
         <div className="shadow-2xl bg-primary md:h-4/5 h-5/6 lg:w-3/6 md:w-4/6 w-5/6 rounded-2xl mt-auto mb-auto p-16">
           <p className=" text-center text-2xl tracking-wide capitalize ">
-            Login into your account!
+            Create your new account!
           </p>
           <div className="flex flex-col justify-center items-center ">
             <div className="my-4 md:my-6 sm:my-4 w-5/6">
@@ -52,18 +52,18 @@ export default function Home() {
               />
             </div>
             <div className="my-4 md:my-6 sm:my-4">
-              New here?{" "}
-              <button onClick={() => router.replace("/register")}>
+              Already have an account?{" "}
+              <button onClick={() => router.replace("/login")}>
                 <span className="font-medium underline cursor-pointer">
-                  Sign up
+                  Login
                 </span>
               </button>
             </div>
             <button
               className="bg-cyan-600 rounded-2xl p-2 w-5/6 text-primary my-4 md:my-6 sm:my-4"
-              onClick={login}
+              onClick={register}
             >
-              Login
+              Register
             </button>
           </div>
         </div>
