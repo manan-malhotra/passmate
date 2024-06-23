@@ -38,20 +38,29 @@ export default function Home() {
     <div className="h-screen">
       <Topbar />
       <div>
-        <p className="text-center">
+        <p className="text-center ml-auto mr-auto justify-center text-2xl  mt-1 tracking-wide  pr-6">
           Hello {username.charAt(0).toLocaleUpperCase()}
           {username.substring(1)}
         </p>
       </div>
-      <div>
+      <div className="flex flex-row w-full flex-wrap mt-6 ">
         {userKeys &&
           userKeys.map((key: any) => (
-            <p className="my-4 text-center " key={key.key}>
-              {key.key}
-            </p>
+            <div
+              className="text-center mb-2 lg:w-1/4  md:w-1/3 w-1/2 "
+              style={{ height: "15svh" }}
+              key={key.key}
+              onClick={() => {
+                console.log(key.key);
+              }}
+            >
+              <div className="w-11/12 mx-auto bg-red-200 h-full rounded-xl flex justify-center items-center">
+                <p className="">{key.key}</p>
+              </div>
+            </div>
           ))}
       </div>
-      <div className="flex flex-col justify-center items-center ">
+      <div className="flex flex-col justify-center items-center  ">
         <button onClick={logout}>Logout</button>
       </div>
     </div>
