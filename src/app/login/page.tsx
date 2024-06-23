@@ -2,28 +2,21 @@
 import Topbar from "@/components/topbar";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 export default function Home() {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const login = async () => {
     try {
-      const res = await fetch("/api/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
+      const res = await axios.post("/api/user/login", {
+        username,
+        password,
       });
-      const data = await res.json();
-      if (res.status == 200) {
-        localStorage.setItem("token", data.user);
-        window.location.href = "/";
-      } else {
-        alert(data.message);
-      }
-    } catch (error) {
-      console.error(error);
+      router.refresh();
+    } catch (error: any) {
+      console.log(error);
+      alert(error.response.data.message);
     }
   };
   return (
