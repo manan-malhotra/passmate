@@ -4,11 +4,15 @@ import { useTheme } from "next-themes";
 import axios from "axios";
 import Topbar from "@/components/topbar";
 import { useEffect, useState } from "react";
+import { setTimeout } from "timers";
 
 export default function Home() {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [userKeys, setUserKeys] = useState([]);
+  const [storeUsername, setStoreUsername] = useState("");
+  const [storePassword, setStorePassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const logout = async () => {
     try {
       await axios.post("/api/user/logout");
@@ -30,15 +34,22 @@ export default function Home() {
   useEffect(() => {
     getUserData();
   }, []);
-  const getDetails = (key: string) => {
-    const newKeys: any = userKeys.map((k: any) => {
-      if (k.key === key) {
-        return { ...k, showDetails: true };
-      } else {
-        return { ...k, showDetails: false };
-      }
-    });
-    setUserKeys(newKeys);
+  const getDetails = async (key: string) => {
+    if (!isLoading) {
+      setIsLoading(true);
+      const newKeys: any = userKeys.map((k: any) => {
+        if (k.key === key) {
+          return { ...k, showDetails: true };
+        } else {
+          return { ...k, showDetails: false };
+        }
+      });
+      setUserKeys(newKeys);
+      setTimeout(() => {
+        console.log("Started");
+        setIsLoading(false);
+      }, 2000);
+    }
   };
   if (username === "") return <></>;
   return (
@@ -62,7 +73,7 @@ export default function Home() {
           >
             <div className={`card ${key.showDetails ? "flipped" : ""}`}>
               <div className="card-inner mx-auto">
-                <div className=" bg-card card-front w-11/12 mx-auto h-full rounded-xl flex justify-center items-center">
+                <div className=" bg-card bg-cardFront card-front w-11/12 mx-auto h-full rounded-xl flex justify-center items-center">
                   <div>
                     <p className="">{key.key}</p>
                   </div>

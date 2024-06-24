@@ -50,6 +50,12 @@ input:focus {
   perspective: 1001px;
   background-color: rgb(var(--card));
 }
+.bg-cardFront:hover {
+  transform: scale(1.05);
+  transition: 0.3s;
+  box-shadow: 0 0 0.2rem rgb(var(--foreground-rgb));
+  background-color: rgb(var(--card), 0.6);
+}
 @layer utilities {
   .text-balance {
     text-wrap: balance;
