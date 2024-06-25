@@ -17,11 +17,7 @@ export default function Topbar() {
       </div>
       <div>
         <button onClick={toggleTheme}>
-          {theme === "dark" ? (
-            <MdOutlineWbSunny size={25} color="white" />
-          ) : (
-            <MdOutlineWbSunny size={25} />
-          )}
+          <MdOutlineWbSunny size={25} />
         </button>
       </div>
     </div>
