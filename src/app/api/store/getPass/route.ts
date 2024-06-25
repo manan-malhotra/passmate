@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     const { key } = await request.json();
     if (key == null || key.trim() == "") {
       return NextResponse.json(
-        { message: "Username, Key or Password cannot be empty" },
+        { message: "Key cannot be empty" },
         { status: 400 }
       );
     }
@@ -36,7 +36,10 @@ export async function POST(request: NextRequest) {
         { message: "No such key found!" },
         { status: 400 }
       );
-    const username = cryptr.decrypt(storeData.username);
+    let username = "";
+    if (storeData.username) {
+      username = cryptr.decrypt(storeData.username);
+    }
     const password = cryptr.decrypt(storeData.password);
     return NextResponse.json({
       message: "Data fetched Successfully",

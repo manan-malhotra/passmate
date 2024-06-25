@@ -34,9 +34,34 @@ export default function Home() {
   useEffect(() => {
     getUserData();
   }, []);
+  const getStoreData = async (key: string) => {
+    // TODO: Ask for fingerprint here
+    try {
+      let isAlreadyFetched: boolean = false;
+      userKeys.forEach((k: any) => {
+        if (k.key === key) {
+          if (k.showDetails) {
+            isAlreadyFetched = true;
+          }
+        }
+      });
+      if (isAlreadyFetched) return;
+      setIsLoading(true);
+      const res = await axios.post("/api/store/getPass", {
+        key,
+      });
+      setStoreUsername(res.data.data.username);
+      setStorePassword(res.data.data.password);
+      setIsLoading(false);
+    } catch (error: any) {
+      console.log(error);
+      alert(error.response.data.message);
+    }
+  };
   const getDetails = async (key: string) => {
     if (!isLoading) {
-      setIsLoading(true);
+      getStoreData(key);
+
       const newKeys: any = userKeys.map((k: any) => {
         if (k.key === key) {
           return { ...k, showDetails: true };
@@ -45,10 +70,6 @@ export default function Home() {
         }
       });
       setUserKeys(newKeys);
-      setTimeout(() => {
-        console.log("Started");
-        setIsLoading(false);
-      }, 2000);
     }
   };
   if (username === "") return <></>;
@@ -64,7 +85,7 @@ export default function Home() {
       <div className="flex flex-row w-full flex-wrap mt-6 mb-2">
         {userKeys.map((key: any) => (
           <div
-            className="text-center my-3 lg:w-1/4 md:w-1/3 w-1/2"
+            className="text-center my-3 lg:w-1/3 md:w-1/2 w-full"
             style={{ height: "15svh" }}
             key={key.key}
             onClick={() => {
@@ -80,8 +101,16 @@ export default function Home() {
                 </div>
                 <div className=" bg-card card-back w-11/12 mx-auto h-full rounded-xl flex justify-center items-center">
                   <div>
-                    <p className="">Username</p>
-                    <p className="">Password</p>
+                    {isLoading && storeUsername !== "" ? (
+                      <></>
+                    ) : (
+                      <p className="">{storeUsername}</p>
+                    )}
+                    {isLoading ? (
+                      <p>Loading...</p>
+                    ) : (
+                      <p className="">{storePassword}</p>
+                    )}
                   </div>
                 </div>
               </div>

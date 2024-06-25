@@ -8,15 +8,13 @@ dbconnect();
 export async function POST(request: NextRequest) {
   const { key, username, password } = await request.json();
   if (
-    username == null ||
-    username.trim() == "" ||
     password == null ||
     password.trim() == "" ||
     key == null ||
     key.trim() == ""
   ) {
     return NextResponse.json(
-      { message: "Username, Key or Password cannot be empty" },
+      { message: "ey or Password cannot be empty" },
       { status: 400 }
     );
   }
@@ -33,7 +31,10 @@ export async function POST(request: NextRequest) {
     );
   const updatedKey = key.toLowerCase();
   const cryptr = new Cryptr(updatedKey + process.env.CRYPTR_KEY);
-  const enryptedUser = cryptr.encrypt(username);
+  let enryptedUser = "";
+  if (username != null && username.trim() !== "") {
+    enryptedUser = cryptr.encrypt(username);
+  }
   const encryptedPass = cryptr.encrypt(password);
   const alreadyExist = await Password.findOne({ user, key: updatedKey });
   if (alreadyExist) {
