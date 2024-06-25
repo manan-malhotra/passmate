@@ -1,12 +1,11 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useTheme } from "next-themes";
 import axios from "axios";
 import Topbar from "@/components/topbar";
 import { useEffect, useState } from "react";
-import { setTimeout } from "timers";
 import { MdContentCopy } from "react-icons/md";
-
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 export default function Home() {
   const router = useRouter();
   const [username, setUsername] = useState("");
@@ -14,6 +13,16 @@ export default function Home() {
   const [storeUsername, setStoreUsername] = useState("");
   const [storePassword, setStorePassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
   const logout = async () => {
     try {
       await axios.post("/api/user/logout");
@@ -109,9 +118,10 @@ export default function Home() {
                       <div className="flex justify-between">
                         <p className="pr-5 mr-auto ml-auto">{storeUsername}</p>
                         <button
-                          onClick={() =>
-                            navigator.clipboard.writeText(storeUsername)
-                          }
+                          onClick={() => {
+                            navigator.clipboard.writeText(storeUsername);
+                            setOpen(true);
+                          }}
                         >
                           <MdContentCopy />
                         </button>
@@ -125,9 +135,10 @@ export default function Home() {
                           {"*".repeat(storePassword.length)}
                         </p>
                         <button
-                          onClick={() =>
-                            navigator.clipboard.writeText(storePassword)
-                          }
+                          onClick={() => {
+                            navigator.clipboard.writeText(storePassword);
+                            setOpen(true);
+                          }}
                         >
                           <MdContentCopy />
                         </button>
@@ -143,6 +154,16 @@ export default function Home() {
       <div className="flex flex-col justify-center items-center">
         <button onClick={logout}>Logout</button>
       </div>
+      <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
+        <Alert
+          onClose={handleClose}
+          severity="success"
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          Copied to Clipboard!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
