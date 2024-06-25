@@ -5,6 +5,7 @@ import axios from "axios";
 import Topbar from "@/components/topbar";
 import { useEffect, useState } from "react";
 import { setTimeout } from "timers";
+import { MdContentCopy } from "react-icons/md";
 
 export default function Home() {
   const router = useRouter();
@@ -53,6 +54,7 @@ export default function Home() {
       setStoreUsername(res.data.data.username);
       setStorePassword(res.data.data.password);
       setIsLoading(false);
+      getDetails(key);
     } catch (error: any) {
       console.log(error);
       alert(error.response.data.message);
@@ -60,8 +62,6 @@ export default function Home() {
   };
   const getDetails = async (key: string) => {
     if (!isLoading) {
-      getStoreData(key);
-
       const newKeys: any = userKeys.map((k: any) => {
         if (k.key === key) {
           return { ...k, showDetails: true };
@@ -89,7 +89,7 @@ export default function Home() {
             style={{ height: "15svh" }}
             key={key.key}
             onClick={() => {
-              getDetails(key.key);
+              getStoreData(key.key);
             }}
           >
             <div className={`card ${key.showDetails ? "flipped" : ""}`}>
@@ -101,15 +101,33 @@ export default function Home() {
                 </div>
                 <div className=" bg-card card-back w-11/12 mx-auto h-full rounded-xl flex justify-center items-center">
                   <div>
-                    {isLoading && storeUsername !== "" ? (
+                    {isLoading || storeUsername.length === 0 ? (
                       <></>
                     ) : (
-                      <p className="">{storeUsername}</p>
+                      <div className="flex justify-between">
+                        <p className="pr-5 mr-auto ml-auto">{storeUsername}</p>
+                        <button
+                          onClick={() =>
+                            navigator.clipboard.writeText(storeUsername)
+                          }
+                        >
+                          <MdContentCopy />
+                        </button>
+                      </div>
                     )}
                     {isLoading ? (
                       <p>Loading...</p>
                     ) : (
-                      <p className="">{storePassword}</p>
+                      <div className="flex justify-between">
+                        <p className="mr-auto ml-auto pr-5">{storePassword}</p>
+                        <button
+                          onClick={() =>
+                            navigator.clipboard.writeText(storePassword)
+                          }
+                        >
+                          <MdContentCopy />
+                        </button>
+                      </div>
                     )}
                   </div>
                 </div>
