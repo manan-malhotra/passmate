@@ -47,6 +47,8 @@ export default function Home() {
         }
       });
       if (isAlreadyFetched) return;
+      setStoreUsername("");
+      setStorePassword("");
       setIsLoading(true);
       const res = await axios.post("/api/store/getPass", {
         key,
@@ -119,7 +121,9 @@ export default function Home() {
                       <p>Loading...</p>
                     ) : (
                       <div className="flex justify-between">
-                        <p className="mr-auto ml-auto pr-5">{storePassword}</p>
+                        <p className="mr-auto ml-auto pr-5">
+                          {"*".repeat(storePassword.length)}
+                        </p>
                         <button
                           onClick={() =>
                             navigator.clipboard.writeText(storePassword)
