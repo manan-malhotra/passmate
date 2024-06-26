@@ -23,15 +23,7 @@ export default function Home() {
     }
     setOpen(false);
   };
-  const logout = async () => {
-    try {
-      await axios.post("/api/user/logout");
-      router.refresh();
-    } catch (error: any) {
-      console.log(error);
-      alert(error.response.data.message);
-    }
-  };
+
   const getUserData = async () => {
     try {
       const res = await axios.get("/api/user/getProfile");
@@ -85,18 +77,22 @@ export default function Home() {
   };
   if (username === "") return <></>;
   return (
-    <div className="h-screen">
-      <Topbar />
+    <div className="h-vh min-h-screen">
+      <Topbar isLoggedIn />
       <div>
         <p className="text-center ml-auto mr-auto justify-center text-2xl mt-1 tracking-wide pr-6">
           Hello {username.charAt(0).toUpperCase()}
           {username.substring(1)}
         </p>
       </div>
-      <div className="flex flex-row w-full flex-wrap mt-6 mb-2">
+      {userKeys.length === 0 && <div style={{ height: "75svh" }}></div>}
+      <div
+        className="flex flex-row w-full flex-wrap mt-6 mb-2"
+        style={{ minHeight: "75svh" }}
+      >
         {userKeys.map((key: any) => (
           <div
-            className="text-center my-3 lg:w-1/3 md:w-1/2 w-full"
+            className="text-center my-3 lg:w-2/6 md:w-1/2 w-full"
             style={{ height: "15svh" }}
             key={key.key}
             onClick={() => {
@@ -150,9 +146,6 @@ export default function Home() {
             </div>
           </div>
         ))}
-      </div>
-      <div className="flex flex-col justify-center items-center">
-        <button onClick={logout}>Logout</button>
       </div>
       <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
         <Alert

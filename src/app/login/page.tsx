@@ -21,7 +21,7 @@ export default function Home() {
   };
   return (
     <div className="h-screen">
-      <Topbar />
+      <Topbar isLoggedIn={false} />
       <div className="flex flex-col h-5/6 items-center justify-center py-2">
         <div className="shadow-2xl bg-primary md:h-4/5 h-5/6 lg:w-3/6 md:w-4/6 w-5/6 rounded-2xl mt-auto mb-auto p-16">
           <p className=" text-center text-2xl tracking-wide capitalize ">
