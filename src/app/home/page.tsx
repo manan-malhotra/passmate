@@ -88,7 +88,9 @@ export default function Home() {
           placeholder="Search for keys"
           onChange={(e) => {
             const newKeys: any = userKeyData.filter((k: any) => {
-              return k.key.includes(e.target.value);
+              const key1 = k.key.toLowerCase();
+              const key2 = e.target.value.toLowerCase();
+              return key1.includes(key2);
             });
             setUserKeys(newKeys);
           }}
