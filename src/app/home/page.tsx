@@ -10,6 +10,7 @@ export default function Home() {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [userKeys, setUserKeys] = useState([]);
+  const [userKeyData, setUserKeyData] = useState([]);
   const [storeUsername, setStoreUsername] = useState("");
   const [storePassword, setStorePassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +24,7 @@ export default function Home() {
       const res = await axios.get("/api/user/getProfile");
       setUsername(res.data.user.username);
       setUserKeys(res.data.userData);
+      setUserKeyData(res.data.userData);
     } catch (error: any) {
       console.log(error);
     }
@@ -78,6 +80,21 @@ export default function Home() {
           Hello {username.charAt(0).toUpperCase()}
           {username.substring(1)}
         </p>
+      </div>
+      <div className="mt-2 flex flex-col items-center justify-center py-2">
+        <input
+          className=" border-2 rounded-2xl p-2 w-5/6"
+          type="text"
+          placeholder="Search for keys"
+          onChange={(e) => {
+            const newKeys: any = userKeyData.filter((k: any) => {
+              const key1 = k.key.toLowerCase();
+              const key2 = e.target.value.toLowerCase();
+              return key1.includes(key2);
+            });
+            setUserKeys(newKeys);
+          }}
+        />
       </div>
       <div className="flex flex-row w-full flex-wrap mt-6 mb-2">
         {userKeys.map((key: any) => (
