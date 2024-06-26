@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import Topbar from "@/components/topbar";
 import { useEffect, useState } from "react";
-import { MdContentCopy } from "react-icons/md";
+import { MdAdd, MdContentCopy } from "react-icons/md";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 export default function Home() {
@@ -147,6 +147,14 @@ export default function Home() {
           Copied to Clipboard!
         </Alert>
       </Snackbar>
+      <button
+        className="floating-button"
+        onClick={() => {
+          router.push("/addNew");
+        }}
+      >
+        <MdAdd size={35} />
+      </button>
     </div>
   );
 }

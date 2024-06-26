@@ -28,9 +28,8 @@ export async function POST(request: NextRequest) {
         { message: "Invalid Token Provided" },
         { status: 401 }
       );
-    const updatedKey = key.toLowerCase();
-    const cryptr = new Cryptr(updatedKey + process.env.CRYPTR_KEY);
-    const storeData = await Password.findOne({ user, key: updatedKey });
+    const cryptr = new Cryptr(key + process.env.CRYPTR_KEY);
+    const storeData = await Password.findOne({ user, key });
     if (!storeData)
       return NextResponse.json(
         { message: "No such key found!" },

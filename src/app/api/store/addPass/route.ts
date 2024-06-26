@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     key.trim() == ""
   ) {
     return NextResponse.json(
-      { message: "ey or Password cannot be empty" },
+      { message: "Key and Password cannot be empty" },
       { status: 400 }
     );
   }
@@ -29,14 +29,13 @@ export async function POST(request: NextRequest) {
       { message: "Invalid Token Provided" },
       { status: 401 }
     );
-  const updatedKey = key.toLowerCase();
-  const cryptr = new Cryptr(updatedKey + process.env.CRYPTR_KEY);
+  const cryptr = new Cryptr(key + process.env.CRYPTR_KEY);
   let enryptedUser = "";
   if (username != null && username.trim() !== "") {
     enryptedUser = cryptr.encrypt(username);
   }
   const encryptedPass = cryptr.encrypt(password);
-  const alreadyExist = await Password.findOne({ user, key: updatedKey });
+  const alreadyExist = await Password.findOne({ user, key });
   if (alreadyExist) {
     return NextResponse.json(
       { message: "Cannot add with same key: " + key },
@@ -47,7 +46,7 @@ export async function POST(request: NextRequest) {
     username: enryptedUser,
     password: encryptedPass,
     user,
-    key: updatedKey,
+    key,
   });
 
   return NextResponse.json({ message: "Key Added Successfully" });
