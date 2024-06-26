@@ -13,7 +13,7 @@
 
 [data-theme="dark"] {
   --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 38, 38, 38;
+  --background-start-rgb: 23, 23, 23;
   --background-end-rgb: 23, 23, 23;
   --primary: 30, 30, 30;
   --primaryText: 214, 219, 221;

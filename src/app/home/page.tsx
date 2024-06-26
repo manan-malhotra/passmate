@@ -14,13 +14,7 @@ export default function Home() {
   const [storePassword, setStorePassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const handleClose = (
-    event: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
+  const handleClose = () => {
     setOpen(false);
   };
 
@@ -77,7 +71,7 @@ export default function Home() {
   };
   if (username === "") return <></>;
   return (
-    <div className="h-vh min-h-screen">
+    <div className="h-svh min-h-screen">
       <Topbar isLoggedIn />
       <div>
         <p className="text-center ml-auto mr-auto justify-center text-2xl mt-1 tracking-wide pr-6">
@@ -88,7 +82,7 @@ export default function Home() {
       {userKeys.length === 0 && <div style={{ height: "75svh" }}></div>}
       <div
         className="flex flex-row w-full flex-wrap mt-6 mb-2"
-        style={{ minHeight: "75svh" }}
+        // style={{ minHeight: "75svh" }}
       >
         {userKeys.map((key: any) => (
           <div
