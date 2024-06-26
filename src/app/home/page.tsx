@@ -79,11 +79,7 @@ export default function Home() {
           {username.substring(1)}
         </p>
       </div>
-      {userKeys.length === 0 && <div style={{ height: "75svh" }}></div>}
-      <div
-        className="flex flex-row w-full flex-wrap mt-6 mb-2"
-        // style={{ minHeight: "75svh" }}
-      >
+      <div className="flex flex-row w-full flex-wrap mt-6 mb-2">
         {userKeys.map((key: any) => (
           <div
             className="text-center my-3 lg:w-2/6 md:w-1/2 w-full"
