@@ -18,7 +18,8 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    const user = await User.findOne({ username });
+    const name: string = username.trim().toLowerCase();
+    const user = await User.findOne({ username: name });
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
@@ -29,7 +30,7 @@ export async function POST(request: NextRequest) {
     }
 
     const token = jwt.sign(
-      { userID: user.id, username },
+      { userID: user.id, username: name },
       process.env.JWT_SECRET!,
       {
         expiresIn: "10000d",

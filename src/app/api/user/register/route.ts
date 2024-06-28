@@ -17,8 +17,8 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-
-    const existingUser = await User.findOne({ username });
+    const name: string = username.trim().toLowerCase();
+    const existingUser = await User.findOne({ username: name });
     if (existingUser) {
       return NextResponse.json(
         { message: "User already exists" },
@@ -27,7 +27,10 @@ export async function POST(request: NextRequest) {
     }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    const user = await User.create({ username, password: hashedPassword });
+    const user = await User.create({
+      username: name,
+      password: hashedPassword,
+    });
     return NextResponse.json(
       { message: "User registered successfully!", user },
       { status: 200 }
