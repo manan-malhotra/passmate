@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
       );
     const userData = await Password.find({ user: userID })
       .select("-user -username -password -_id -__v")
-      .sort({ key: 1 });
+      .sort({ createdAt: 1 });
     return NextResponse.json({ message: "Success", userData, user });
   } catch (error) {
     console.log(error);
