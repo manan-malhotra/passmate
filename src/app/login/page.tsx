@@ -42,6 +42,11 @@ export default function Home() {
                 type="password"
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    login();
+                  }
+                }}
               />
             </div>
             <div className="my-4 md:my-6 sm:my-4">
